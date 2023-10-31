@@ -1,32 +1,30 @@
-class Elevator:
+class Publication:
 
-    def __init__(self,bottom,top,current):
-        self.bottom=bottom
-        self.top=top
-        self.current=current
+    def __init__(self,name):
+        self.name=name
 
 
-    def floor_up(self):
-        self.current=self.current+1
-        print(f"Floor No. {self.current}")
+class Book(Publication):
 
-    def floor_down(self):
-        self.current=self.current-1
-        print(f"Floor No. {self.current}")
+    def __init__(self,name,author,page_count):
+        super().__init__(name)
+        self.author=author
+        self.page_count=page_count
 
-    def go_to_floor(self,target):
-        print(f"Floor No. {self.current}")
-        if target>self.current:
-            for i in range(target-self.current):
-                self.floor_up()
-        elif target<self.current:
-            for i in range(self.current-target):
-                self.floor_up()
-        print("Destination Floor reached, Please exit")
+    def print_information(self):
+        print(f"{self.name} was written by {self.author} and is {self.page_count} pages long")
+
+class Magazine(Publication):
+
+    def __init__(self,name,chief_editor):
+        super().__init__(name)
+        self.chief_editor=chief_editor
+
+    def print_information(self):
+        print(f"{self.name} was written by {self.chief_editor}")
 
 
-
-#main
-elevator=Elevator(0,10,0)
-target=int(input("What floor would you like to go to?"))
-elevator.go_to_floor(target)
+DonaldDuck=Magazine("Donald Duck","Aki Hyppä")
+DonaldDuck.print_information()
+CompartmentNoSix=Book("Compartment Np. 6","Rosa Liksom",192)
+CompartmentNoSix.print_information()

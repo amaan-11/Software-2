@@ -1,44 +1,51 @@
-class Elevator:
+import random
+class Car:
 
-    def __init__(self,name,bottom,top,current):
-        self.name=name
-        self.bottom=bottom
-        self.top=top
-        self.current=current
+    def __init__(self,reg_num,max_speed,curr_speed = 0,travelled_dist = 0):
+        self.reg_num = reg_num
+        self.max_speed = max_speed
+        self.curr_speed = curr_speed
+        self.travelled_dist = travelled_dist
+
+    def print_deets(self):
+        print(self.reg_num,self.max_speed,"km/hr",self.curr_speed,"km/hr",self.travelled_dist,"km",sep="|")
+
+    def accelerate(self,change):
+        if self.curr_speed+change>self.max_speed:
+            self.curr_speed = self.max_speed
+            print("The current speed of ",self.reg_num,"is",self.curr_speed)
+        elif self.curr_speed+change<0:
+            print("Negative speed is not possible hence speed becomes 0")
+            self.curr_speed=0
+        else:
+            self.curr_speed=self.curr_speed+change
+            print("Speed of ",self.reg_num,"is",self.curr_speed)
+
+    def drive(self,time):
+        if self.travelled_dist+(self.curr_speed*time)<=10000:
+            self.travelled_dist=self.travelled_dist+(self.curr_speed*time)
+            print(f"The car has now travelled {self.travelled_dist}")
+
+class Electricar(Car):
+    def __init__(self,batterycapacity,reg_num,max_speed,curr_speed=0,travelled_dist=0):
+        super().__init__(reg_num,max_speed,curr_speed,travelled_dist)
+        self.batterycapacity=batterycapacity
 
 
-    def floor_up(self):
-        self.current=self.current+1
-        print(f"Floor No. {self.current}")
 
-    def floor_down(self):
-        self.current=self.current-1
-        print(f"Floor No. {self.current}")
-
-    def go_to_floor(self,target):
-        print(f"Floor No. {self.current}")
-        if target>self.current:
-            for i in range(target-self.current):
-                self.floor_up()
-        elif target<self.current:
-            for i in range(self.current-target):
-                self.floor_up()
-        print("Destination Floor reached, Please exit")
-
-
-
-class Building:
-
-    def __init__(self,bottom,top,num_elevators):
-        self.bottom=bottom
-        self.top=top
-        self.num_elevators=num_elevators
-        self.elevators= [Elevator('Elevator' + str(i + 1),self.bottom,self.top,0) for i in range(self.num_elevators)]
-    def run_elevator(self,elevator_num,target):
-        self.elevators[elevator_num-1].go_to_floor(target)
-
-#main
-empirestate=Building(0,300,5)
-elevator_num=int(input("Enter the elevator number you want to use."))
-target=int(input("Enter the floor you'd like to go to."))
-empirestate.run_elevator(elevator_num,target)
+class Gasolinecar(Car):
+    def __init__(self,tankcapacity,reg_num,max_speed,curr_speed = 0,travelled_dist = 0):
+        super().__init__(reg_num,max_speed,curr_speed,travelled_dist)
+        self.tankcapacity=tankcapacity
+cars=[]
+cars.append(Electricar("52.5 kw/h","ABC-15",180))
+cars.append(Gasolinecar("32.3 l","ACD-15", 165))
+hours=0
+while hours<=3:
+    for car in cars:
+        car.accelerate(random.randint(0,15))
+        car.drive(1)
+    hours+=1
+print("Registration Number","Maximum Speed", "Current Speed","Travelled Distance",sep="|")
+for car in cars:
+    car.print_deets()
