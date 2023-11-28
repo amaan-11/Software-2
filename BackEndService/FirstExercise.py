@@ -3,16 +3,22 @@ import json
 from flask import Flask, Response
 
 app = Flask(__name__)
-@app.route('/sum/<number1>')
-def calculate_sum(number1, number2):
+@app.route('/prime/<number1>')
+def prime_check(number1):
     try:
         number1 = float(number1)
-        primecheck=False
-        if number1
+        if number1 > 1:
+            for i in range(2, int(number1 / 2) + 1):
+                if (number1 % i) == 0:
+                    primecheck=f"{number1} is not a prime number"
+                    break
+                else:
+                    primecheck=f"{number1} is a prime number"
+        else:
+            primecheck=f"{number1} is not a prime number"
+
         response = {
-            "number1" : number1,
-            "number2" : number2,
-            "total_sum" : total_sum,
+            "primecheck" : primecheck,
             "status" : 200
         }
         return response

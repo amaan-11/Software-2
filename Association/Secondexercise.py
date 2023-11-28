@@ -38,7 +38,8 @@ class Building:
         self.elevators[elevator_num-1].go_to_floor(target)
 
 #main
-empirestate=Building(0,300,5)
 elevator_num=int(input("Enter the elevator number you want to use."))
+empirestate=Building(0,300,5)
+
 target=int(input("Enter the floor you'd like to go to."))
 empirestate.run_elevator(elevator_num,target)
